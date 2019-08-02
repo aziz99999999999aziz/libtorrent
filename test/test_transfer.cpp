@@ -126,18 +126,27 @@ constexpr transfer_flags_t disk_full = 1_bit;
 constexpr transfer_flags_t delete_files = 2_bit;
 constexpr transfer_flags_t move_storage = 3_bit;
 
+std::string listen_iface(int const port)
+{
+	char buf[50];
+	std::snprintf(buf, sizeof(buf), "0.0.0.0:%d", port);
+	return buf;
+}
+
 void test_transfer(int proxy_type, settings_pack const& sett
 	, transfer_flags_t flags = {}
 	, storage_mode_t storage_mode = storage_mode_sparse)
 {
 	char const* test_name[] = {"no", "SOCKS4", "SOCKS5", "SOCKS5 password", "HTTP", "HTTP password"};
 
-	std::printf("\n\n  ==== TESTING %s proxy ==== disk-full: %s delete_files: %s move-storage: %s\n\n\n"
+	int port = 48000 + test_counter() * 100;
+
+	std::printf("\n\n  ==== TESTING %s proxy ==== disk-full: %s delete_files: %s move-storage: %s port: %d\n\n\n"
 		, test_name[proxy_type]
 		, (flags & disk_full) ? "true": "false"
 		, (flags & delete_files) ? "true": "false"
 		, (flags & move_storage) ? "true": "false"
-		);
+		, port);
 
 	// in case the previous run was terminated
 	error_code ec;
@@ -153,7 +162,7 @@ void test_transfer(int proxy_type, settings_pack const& sett
 	session_proxy p2;
 
 	settings_pack pack = settings();
-	pack.set_str(settings_pack::listen_interfaces, "0.0.0.0:48075");
+	pack.set_str(settings_pack::listen_interfaces, listen_iface(port));
 
 	pack.set_bool(settings_pack::enable_upnp, false);
 	pack.set_bool(settings_pack::enable_natpmp, false);
@@ -165,7 +174,7 @@ void test_transfer(int proxy_type, settings_pack const& sett
 
 	lt::session ses1(pack);
 
-	pack.set_str(settings_pack::listen_interfaces, "0.0.0.0:49075");
+	pack.set_str(settings_pack::listen_interfaces, listen_iface(port + 1));
 	lt::session ses2(pack);
 
 	int proxy_port = 0;
