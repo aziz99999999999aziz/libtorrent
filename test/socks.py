@@ -16,11 +16,11 @@ except Exception:
 
 
 def debug(s):
-    print('socks.py: ', s, file=sys.stderr)
+    print('socks.py: ', s)
 
 
 def error(s):
-    print('socks.py, ERROR: ', s, file=sys.stderr)
+    print('socks.py, ERROR: ', s)
 
 
 class MyTCPServer(ThreadingTCPServer):
@@ -274,6 +274,7 @@ class SocksHandler(StreamRequestHandler):
 
 if __name__ == '__main__':
 
+    debug('starting socks.py %s' % " ".join(sys.argv))
     listen_port = 8002
     i = 1
     while i < len(sys.argv):
