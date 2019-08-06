@@ -81,6 +81,7 @@ def forward(source, dest, name):
 
 
 def spawn_forwarder(source, dest, name):
+    debug('spawn forwarder: %s %s %s' % (source, dest, name))
     t = threading.Thread(target=forward, args=(source, dest, name))
     t.daemon = True
     t.start()
@@ -104,8 +105,8 @@ class SocksHandler(StreamRequestHandler):
     def handle(self):
         # IMRPOVEMENT: Report who requests are from in logging
         # IMPROVEMENT: Timeout on client
-        debug('Connection - authenticating')
         version = self.read(1)
+        debug('Connection - authenticating %d' % ord(version))
 
         if allow_v4 and version == '\x04':
             cmd = self.read(1)
@@ -210,7 +211,7 @@ class SocksHandler(StreamRequestHandler):
         try:
             out_address = socket.getaddrinfo(dest_address, dest_port)[0][4]
         except Exception as e:
-            print(e)
+            error('%s' % e)
             return
 
         if cmd == UDP_ASSOCIATE:
@@ -222,7 +223,7 @@ class SocksHandler(StreamRequestHandler):
         try:
             outbound_sock.connect(out_address)
         except Exception as e:
-            print(e)
+            error('%s' % e)
             return
 
         if address_type == IPV6:
@@ -234,7 +235,7 @@ class SocksHandler(StreamRequestHandler):
         try:
             forward(self.request, outbound_sock, 'client')
         except Exception as e:
-            print(e)
+            error('%s' % e)
 
     def send_reply_v4(self, xxx_todo_changeme):
         (bind_addr, bind_port) = xxx_todo_changeme
