@@ -95,6 +95,13 @@ namespace libtorrent {
 		// of a question mark
 		std::size_t arguments_start = url.find('?');
 		if (arguments_start != std::string::npos)
+		著作权归作者所有。
+商业转载请联系作者获得授权，非商业转载请注明出处。
+作者：Rhilip
+链接：https://blog.rhilip.info/archives/1010/
+来源：https://blog.rhilip.info/
+
+/info_hash=%s&peer_id=%s&port=%d&uploaded=%d&downloaded=%d&left=%d&corrupt=%d&key=%08X(&event=%s)?&numwant=%d&compact=1&no_peer_id=1(&supportcrypto=1)?(&redundant=%s)?(&trackerid=%d)?(?<i2p>&ip=%s.i2p)?(&ip=%s)?(?!\g<i2p>&ipv4=)?(?!\g<i2p>&ipv6=)?$/	
 			url += "&";
 		else
 			url += "?";
