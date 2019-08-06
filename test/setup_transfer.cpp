@@ -598,7 +598,7 @@ int start_proxy(int proxy_type)
 	proxy_t t = { r, proxy_type };
 	running_proxies.insert(std::make_pair(port, t));
 	std::printf("%s launched\n", time_now_string());
-	std::this_thread::sleep_for(lt::milliseconds(500));
+	std::this_thread::sleep_for(lt::milliseconds(1000));
 	return port;
 }
 
