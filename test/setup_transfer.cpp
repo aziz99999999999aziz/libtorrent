@@ -445,7 +445,7 @@ pid_type async_run(char const* cmdline)
 	startup.dwFlags = STARTF_USESTDHANDLES;
 	startup.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
 	startup.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	startup.hStdError = GetStdHandle(STD_OUTPUT_HANDLE);
+	startup.hStdError = GetStdHandle(STD_ERROR_HANDLE);
 	int const ret = CreateProcessA(NULL, buf, NULL, NULL, TRUE
 		, 0, NULL, NULL, &startup, &pi);
 

@@ -17,10 +17,12 @@ except Exception:
 
 def debug(s):
     print('socks.py: ', s)
+    sys.stdout.flush()
 
 
 def error(s):
     print('socks.py, ERROR: ', s)
+    sys.stdout.flush()
 
 
 class MyTCPServer(ThreadingTCPServer):
