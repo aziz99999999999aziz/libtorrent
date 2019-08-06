@@ -106,7 +106,7 @@ class SocksHandler(StreamRequestHandler):
         # IMRPOVEMENT: Report who requests are from in logging
         # IMPROVEMENT: Timeout on client
         version = self.read(1)
-        debug('Connection - authenticating %d' % ord(version))
+        debug('Connection - authenticating %r allow_v4: %d' % (version, allow_v4))
 
         if allow_v4 and version == '\x04':
             cmd = self.read(1)
